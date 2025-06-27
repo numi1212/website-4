@@ -134,30 +134,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Rows: 2242 Columns: 3
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): tract, race
-dbl (1): med_income
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 53 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -166,6 +142,7 @@ dbl (1): med_income
 </div>
 </div>
 </div>
+<p>This plot illustrates the relationship between median household income and the largest racial group across census tracts in New York City. Each point on the graph represents a single census tract, positioned along the x-axis according to its median income and along the y-axis by the racial or ethnic group that forms the largest share of that tract’s population (White, Hispanic, Black, or Asian). The points are colored on a gradient from dark purple to yellow, with brighter colors indicating higher income levels. The plot is divided into five vertical panels—one for each of the city’s boroughs (Bronx, Kings, New York, Queens, and Richmond). This faceted layout enables comparisons of racial-income distributions between boroughs. In general, the plot reveals that income varies significantly by both racial group and borough, with tracts where the majority group is White or Asian often associated with higher median incomes. The visual design highlights disparities and concentrations of wealth, offering insight into the socioeconomic landscape of New York City’s diverse neighborhoods.</p>
 
 
 

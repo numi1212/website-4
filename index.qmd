@@ -1,38 +1,45 @@
 ---
 title: "census and income"
+Author: Muhammad Numan
 ---
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
 library(tidyverse)
 
-library(tidyverse)
-
-# Load the data
+# Load and prepare data
 nyc_tracts <- read_csv("https://raw.githubusercontent.com/PPBDS/primer.data/master/data-raw/nyc_tracts.csv")
 
-# Separate and clean the columns
 nyc_clean <- nyc_tracts %>%
   separate(tract, into = c("tract_id", "county", "state"), sep = ";\\s*") %>%
-  mutate(across(c(tract_id, county, state), str_trim))
+  mutate(
+    county = str_replace(county, " County", ""),
+    across(c(tract_id, county, state), str_trim),
+    race = factor(race, levels = c("White", "Hispanic", "Black", "Asian"))  # Ordered for clarity
+  )
 
-# Create the plot with legend on the right
+# Plot
 ggplot(nyc_clean, aes(x = med_income, y = race, color = med_income)) +
-  geom_jitter(width = 0, height = 0.25, alpha = 0.7) +
-  facet_wrap(~ county, ncol = 1) +
+  geom_jitter(width = 0, height = 0.3, alpha = 0.7, size = 1.8) +
+  facet_wrap(~ county, ncol = 1, strip.position = "top") +
   scale_color_viridis_c(option = "plasma", end = 0.9, name = "Income") +
   scale_x_continuous(labels = scales::dollar, limits = c(0, 250000)) +
   labs(
     title = "Race and Income Across Census Tracts in New York City",
+    subtitle = "Each dot represents a census tract, colored by median household income",
     x = "Median household income",
-    y = "Largest group in Census tract"
+    y = "Largest group in Census tract",
+    caption = "Data Source: PPBDS / primer.data"
   ) +
   theme_minimal(base_size = 14) +
   theme(
     strip.text = element_text(face = "bold", hjust = 0),
-    panel.spacing = unit(1, "lines"),
-    legend.position = "right"  # <- legend moved to the right
+    axis.text.y = element_text(size = 5, face = "bold", margin = margin(r = 10)),
+    axis.title.y = element_text(size = 14, face = "bold"),
+    panel.spacing = unit(0.5, "lines"),
+    legend.position = "right"
   )
-
-
 ```
+This plot illustrates the relationship between median household income and the largest racial group across census tracts in New York City. Each point on the graph represents a single census tract, positioned along the x-axis according to its median income and along the y-axis by the racial or ethnic group that forms the largest share of that tract’s population (White, Hispanic, Black, or Asian). The points are colored on a gradient from dark purple to yellow, with brighter colors indicating higher income levels. The plot is divided into five vertical panels—one for each of the city’s boroughs (Bronx, Kings, New York, Queens, and Richmond). This faceted layout enables comparisons of racial-income distributions between boroughs. In general, the plot reveals that income varies significantly by both racial group and borough, with tracts where the majority group is White or Asian often associated with higher median incomes. The visual design highlights disparities and concentrations of wealth, offering insight into the socioeconomic landscape of New York City's diverse neighborhoods.
