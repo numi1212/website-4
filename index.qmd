@@ -1,0 +1,38 @@
+---
+title: "census and income"
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+
+library(tidyverse)
+
+# Load the data
+nyc_tracts <- read_csv("https://raw.githubusercontent.com/PPBDS/primer.data/master/data-raw/nyc_tracts.csv")
+
+# Separate and clean the columns
+nyc_clean <- nyc_tracts %>%
+  separate(tract, into = c("tract_id", "county", "state"), sep = ";\\s*") %>%
+  mutate(across(c(tract_id, county, state), str_trim))
+
+# Create the plot with legend on the right
+ggplot(nyc_clean, aes(x = med_income, y = race, color = med_income)) +
+  geom_jitter(width = 0, height = 0.25, alpha = 0.7) +
+  facet_wrap(~ county, ncol = 1) +
+  scale_color_viridis_c(option = "plasma", end = 0.9, name = "Income") +
+  scale_x_continuous(labels = scales::dollar, limits = c(0, 250000)) +
+  labs(
+    title = "Race and Income Across Census Tracts in New York City",
+    x = "Median household income",
+    y = "Largest group in Census tract"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    strip.text = element_text(face = "bold", hjust = 0),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "right"  # <- legend moved to the right
+  )
+
+
+```
